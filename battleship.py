@@ -16,6 +16,7 @@ class Ship:
         return self.size
     
     def genCoords(self) -> list:
+        self.coords = []
         x = randint(0, 9)
         left = 1 if x >= 7 else 0
         y = randint(0, 9)
@@ -45,20 +46,33 @@ class MapField:
     def getMatrix(self):
         return self.matrix
 
+    def isBusy(self, x, y) -> bool:
+        a = x if x == 0 else x - 1
+        b = x if x == 9 else x + 1
+        c = y if y == 0 else y - 1
+        d = y if y == 9 else y + 1
+        for i in range(a, b + 1):
+            for j in range(c, d + 1):
+                if self.matrix[i][j] != 0:
+                    return True
+        return False
+
     def addShip(self, ship: Ship):
         c = 1
-        while (c < 10):
+        while (c < 100):
             coords = ship.genCoords()
 
             isBusy = False
+            # if c > 1:
+            #     print(coords[0])
             for coord in coords:
                 (x, y) = coord
-                if self.matrix[x][y] != 0:
-                    isBusy = True
+                isBusy = self.isBusy(x, y)
+                if isBusy:
                     break
 
             if isBusy:
-                print(f"isBusy Count: {c}")
+                # print(f"isBusy Count: {c}")
                 c += 1
                 continue
 
@@ -66,36 +80,44 @@ class MapField:
                 (x, y) = coord
                 self.matrix[x][y] = ship.getSize()
 
-            print('Added ship [' + str(ship.getSize()) + ']')
+            print(f"Added ship [{ship.getSize()}] attemps {c}")
             return 1
-        print('Can not add ship [' + str(ship.getSize()) + ']')
+        print(f"Can not add ship [{ship.getSize()}]")
         return 0
 
 
 def genMatrix():
-    map1 = MapField()
+    mf = MapField()
 
     # add 1 crusader
-    map1.addShip(Ship(4))
+    mf.addShip(Ship(4))
+
     # add 2 destroyers
-    map1.addShip(Ship(3))
-    map1.addShip(Ship(3))
+    mf.addShip(Ship(3))
+    mf.addShip(Ship(3))
+
     # add 3 frigates
-    map1.addShip(Ship(2))
-    map1.addShip(Ship(2))
-    map1.addShip(Ship(2))
+    mf.addShip(Ship(2))
+    mf.addShip(Ship(2))
+    mf.addShip(Ship(2))
 
     # add 4 corvettes
-    map1.addShip(Ship(1))
-    map1.addShip(Ship(1))
-    map1.addShip(Ship(1))
-    map1.addShip(Ship(1))
+    mf.addShip(Ship(1))
+    mf.addShip(Ship(1))
+    mf.addShip(Ship(1))
+    mf.addShip(Ship(1))
 
-    return map1.getMatrix()
+    return mf.getMatrix()
 
 def main(args):
-    matrix = genMatrix()
-    for row in matrix:
+    map1 = genMatrix()
+    for row in map1:
+        print(' '.join(map(str, row)))
+
+    print('-------------------------------------------------------')
+
+    map2 = genMatrix()
+    for row in map2:
         print(' '.join(map(str, row)))
 
     # v = Vector2;
