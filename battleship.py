@@ -86,7 +86,7 @@ class MapField:
         return 0
 
 
-def genMatrix():
+def genMatrix() -> MapField:
     mf = MapField()
 
     # add 1 crusader
@@ -107,31 +107,54 @@ def genMatrix():
     mf.addShip(Ship(1))
     mf.addShip(Ship(1))
 
-    return mf.getMatrix()
+    return mf
+
+def drawMapField(mf: MapField, start_x: int, start_y: int, w: int, h:int):
+    matrix = mf.getMatrix()
+    for i in range(10):
+        for j in range(10):
+            x = start_x + w * i
+            y = start_y + h * j
+            print(x, y, w, h)
+            if matrix[i][j] == 0:
+                draw_rectangle_lines(x, y, w, h, BLACK)
+            elif matrix[i][j] == 1:
+                draw_rectangle(x, y, w, h, BLUE)
+            elif matrix[i][j] == 2:
+                draw_rectangle(x, y, w, h, GREEN)
+            elif matrix[i][j] == 3:
+                draw_rectangle(x, y, w, h, PURPLE)
+            elif matrix[i][j] == 4:
+                draw_rectangle(x, y, w, h, VIOLET)
+
+    return 0
 
 def main(args):
     map1 = genMatrix()
-    for row in map1:
-        print(' '.join(map(str, row)))
+    # for row in map1.getMatrix():
+    #     print(' '.join(map(str, row)))
 
-    print('-------------------------------------------------------')
+    # print('-------------------------------------------------------')
+    # drawMapField(map1)
 
     map2 = genMatrix()
-    for row in map2:
-        print(' '.join(map(str, row)))
+    # for row in map2:
+    #     print(' '.join(map(str, row)))
 
-    # v = Vector2;
-    # set_config_flags(ConfigFlags.FLAG_VSYNC_HINT)
+    set_config_flags(ConfigFlags.FLAG_VSYNC_HINT)
 
-    # init_window(800, 450, "Привет RayLib!")
+    init_window(850, 450, "Морской Бой!")
 
-    # while not window_should_close():
-    #     begin_drawing()
-    #     clear_background(RAYWHITE)
+    while not window_should_close():
+        begin_drawing()
+        clear_background(RAYWHITE)
 
-    #     draw_fps(5, 5)
-    #     end_drawing()
-    # close_window()
+        drawMapField(map1, 10, 30, 40, 40)
+        drawMapField(map2, 440, 30, 40, 40)
+
+        draw_fps(5, 5)
+        end_drawing()
+    close_window()
     return 0
 
 if __name__ == '__main__':
