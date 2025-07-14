@@ -115,7 +115,7 @@ def drawMapField(mf: MapField, start_x: int, start_y: int, w: int, h:int):
         for j in range(10):
             x = start_x + w * i
             y = start_y + h * j
-            print(x, y, w, h)
+
             if matrix[i][j] == 0:
                 draw_rectangle_lines(x, y, w, h, BLACK)
             elif matrix[i][j] == 1:
