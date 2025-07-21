@@ -144,6 +144,7 @@ def main(args):
     set_config_flags(ConfigFlags.FLAG_VSYNC_HINT)
 
     init_window(850, 450, "Морской Бой!")
+    set_target_fps(60)
 
     while not window_should_close():
         begin_drawing()
